@@ -54,6 +54,7 @@ signUpPage.innerHTML = `
 `;
 
 const password = signUpPage.querySelector(".password");
+const formSignUpPage = signUpPage.querySelector("form")
 
 const passwordRules = document.createElement("div");
 
@@ -88,11 +89,16 @@ passwordRules.innerHTML = `
   });
 })*/
 
+
+
+
 password.addEventListener("input", (event) => {
   const v = passwordRules.querySelectorAll("p");
   const w = passwordRules.querySelector("span");
   password.classList.add("error");
   const value = password.value;
+
+
   if (value.length >= 8) {
     w.classList.add("done");
     password.classList.replace("error", "succes");
@@ -101,3 +107,31 @@ password.addEventListener("input", (event) => {
     password.classList.replace("succes", "error");
   }
 });
+
+
+formSignUpPage.addEventListener('submit',event  => {
+event.preventDefault();
+  const value = password.value
+  const post = fetch ("http://localhost:5550/", {
+    method : "POST",
+    body : JSON.stringify({password : value}),
+    headers : {
+      "Content-Type" : "application/json"
+    }
+  })
+
+  post.then( async (response) => {
+    const res = await response.json()
+    console.log(res)
+  })
+
+  const get = fetch ("http://localhost:5550/")
+  get.then( async response => {
+    const getres = await response.json()
+    console.log(getres)
+  })
+
+})
+
+
+
